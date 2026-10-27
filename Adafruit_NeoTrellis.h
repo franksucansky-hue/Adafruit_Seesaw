@@ -21,7 +21,7 @@
 #define NEO_TRELLIS_X(k) ((k) % 4)
 #define NEO_TRELLIS_Y(k) ((k) / 4)
 
-#define NEO_TRELLIS_XY(x, y) ((y)*NEO_TRELLIS_NUM_COLS + (x))
+#define NEO_TRELLIS_XY(x, y) ((y) * NEO_TRELLIS_NUM_COLS + (x))
 
 typedef void (*TrellisCallback)(keyEvent evt);
 
@@ -35,11 +35,11 @@ class Adafruit_NeoTrellis : public Adafruit_seesaw {
 public:
   Adafruit_NeoTrellis(uint8_t addr = NEO_TRELLIS_ADDR,
                       TwoWire *i2c_bus = &Wire);
-  ~Adafruit_NeoTrellis(){};
+  ~Adafruit_NeoTrellis() {}
 
   bool begin(uint8_t addr = NEO_TRELLIS_ADDR, int8_t flow = -1);
 
-  void registerCallback(uint8_t key, TrellisCallback (*cb)(keyEvent));
+  void registerCallback(uint8_t key, TrellisCallback cb);
   void unregisterCallback(uint8_t key);
 
   void activateKey(uint8_t key, uint8_t edge, bool enable = true);
@@ -53,8 +53,8 @@ public:
 
 protected:
   uint8_t _addr; ///< the I2C address of this board
-  TrellisCallback (*_callbacks[NEO_TRELLIS_NUM_KEYS])(
-      keyEvent); ///< the array of callback functions
+  TrellisCallback
+      _callbacks[NEO_TRELLIS_NUM_KEYS]; ///< the array of callback functions
 };
 
 /**************************************************************************/
@@ -67,12 +67,12 @@ class Adafruit_MultiTrellis {
 public:
   Adafruit_MultiTrellis(Adafruit_NeoTrellis *trelli, uint8_t rows,
                         uint8_t cols);
-  ~Adafruit_MultiTrellis(){};
+  ~Adafruit_MultiTrellis() {}
 
   bool begin();
 
-  void registerCallback(uint16_t num, TrellisCallback (*cb)(keyEvent));
-  void registerCallback(uint8_t x, uint8_t y, TrellisCallback (*cb)(keyEvent));
+  void registerCallback(uint16_t num, TrellisCallback cb);
+  void registerCallback(uint8_t x, uint8_t y, TrellisCallback cb);
   void unregisterCallback(uint16_t num);
   void unregisterCallback(uint8_t x, uint8_t y);
 
